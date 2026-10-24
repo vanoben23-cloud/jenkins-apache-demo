@@ -49,11 +49,16 @@ pipeline {
         stage('Scan Docker Image') {
             steps {
                 sh '''
-                    trivy --config="" image \
-                      --scanners vuln \
-                      --exit-code 1 \
-                      --severity HIGH,CRITICAL \
-                      class28-app:latest
+                trivy --config="" image --scanners vuln --exit-code 1 --severity HIGH,CRITICAL class28-app:latest
+                '''
+            }
+        }
+
+         stage('Tag Docker Image') {
+            steps {
+                sh '''
+                    docker tag class28-app:latest vanessadevopslady/class28:latest
+                    docker images vanessadevopslady/class28
                 '''
             }
         }
