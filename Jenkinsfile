@@ -45,6 +45,19 @@ pipeline {
         }
     }
 
+    
+        stage('Scan Docker Image') {
+            steps {
+                sh '''
+                    trivy --config="" image \
+                      --scanners vuln \
+                      --exit-code 1 \
+                      --severity HIGH,CRITICAL \
+                      class28-app:latest
+                '''
+            }
+        }
+    }
     post {
         success {
             echo 'SUCCESS: Docker image built!'
