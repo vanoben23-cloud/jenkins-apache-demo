@@ -55,13 +55,13 @@ pipeline {
         }
 
          stage('Tag Docker Image') {
-            steps {
-                sh '''
-                    docker tag class28-app:latest vanessadevopslady/class28:latest
-                    docker images vanessadevopslady/class28
-                '''
-            }
-        }
+    steps {
+        sh '''
+            docker tag class28-app:latest vanessadevopslady/class_28_repo:latest
+            docker images vanessadevopslady/class_28_repo
+        '''
+    }
+}
     }
     post {
         success {
