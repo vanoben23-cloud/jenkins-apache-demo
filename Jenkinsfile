@@ -43,7 +43,7 @@ pipeline {
                 '''
             }
         }
-    }
+    
 
     
         stage('Scan Docker Image') {
