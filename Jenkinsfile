@@ -62,6 +62,30 @@ pipeline {
         '''
     }
 }
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-credentials',
+                        usernameVariable: 'DOCKER_HUB_USER',
+                        passwordVariable: 'DOCKER_HUB_TOKEN'
+                    )
+                ]) {
+                    sh '''
+                        set -e
+                        set +x
+
+                        export DOCKER_CONFIG="$(mktemp -d)"
+                        trap 'rm -rf "$DOCKER_CONFIG"' EXIT
+
+                        printf '%s' "$DOCKER_HUB_TOKEN" |
+                          docker login -u "$DOCKER_HUB_USER" --password-stdin
+
+                        docker push vanessadevopslady/class_28_repo:latest
+                    '''
+                }
+            }
+}
     }
     post {
         success {
