@@ -70,8 +70,11 @@ environment {
          stage('Tag Docker Image') {
     steps {
         sh '''
-           docker tag "$IMAGE_NAME:$IMAGE_TAG" "$REPO:$IMAGE_TAG"
-            docker images vanessadevopslady/class_28_repo
+           
+docker tag "$IMAGE_NAME:$IMAGE_TAG" "$REPO:$IMAGE_TAG"
+docker tag "$IMAGE_NAME:$IMAGE_TAG" "$REPO:$BUILD_NUMBER"
+docker tag "$IMAGE_NAME:$IMAGE_TAG" "$REPO:latest"
+docker images "$REPO"
         '''
     }
 }
@@ -94,7 +97,10 @@ environment {
                         printf '%s' "$DOCKER_HUB_TOKEN" |
                           docker login -u "$DOCKER_HUB_USER" --password-stdin
 
-                        docker push "$REPO:$IMAGE_TAG"
+                        
+docker push "$REPO:$IMAGE_TAG"
+docker push "$REPO:$BUILD_NUMBER"
+docker push "$REPO:latest"
                     '''
                 }
             }
