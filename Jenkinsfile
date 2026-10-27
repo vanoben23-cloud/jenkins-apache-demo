@@ -109,10 +109,22 @@ docker push "$REPO:latest"
     post {
         success {
             echo 'SUCCESS: Docker image built!'
-        }
+       
+slackSend(
+    channel: '#jenkins-alerts',
+    color: 'good',
+    message: "SUCCESS: ${env.JOB_NAME} Build #${env.BUILD_NUMBER} completed successfully! ${env.BUILD_URL}"
+)
+ }
         failure {
             echo 'FAILED: Check Jenkins Console Output.'
-        }
+      
+slackSend(
+    channel: '#jenkins-alerts',
+    color: 'danger',
+    message: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}. Check Jenkins: ${env.BUILD_URL}"
+)
+  }
     }
 }
 
