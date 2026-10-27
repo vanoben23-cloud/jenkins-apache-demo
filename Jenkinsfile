@@ -5,7 +5,7 @@ pipeline {
     options {
         skipDefaultCheckout(true)
     }
- parameters {
+    parameters {
         string(
             name: 'IMAGE_TAG',
             defaultValue: 'latest',
@@ -17,10 +17,15 @@ pipeline {
             defaultValue: 'class28-app',
             description: 'Enter Docker image name'
         )
-    }
+   }
+
+environment {
+    REPO = 'vanessadevopslady/class_28_repo'
+}
     stages {
         stage('Checkout Git Repository') {
             steps {
+          
                 git branch: 'release/v1.0.0',
                     url: 'https://github.com/vanoben23-cloud/jenkins-apache-demo.git'
             }
