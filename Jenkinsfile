@@ -50,14 +50,14 @@ pipeline {
             steps {
                 sh '''
                     docker --version
-                    docker build -t class28-app:latest .
+                   docker build -t "$IMAGE_NAME:$IMAGE_TAG" .
                     docker images class28-app
                 '''
             }
         }
     stage('Scan Docker Image') {
     steps {
-        sh 'trivy image --scanners vuln --exit-code 1 --severity HIGH,CRITICAL class28-app:latest'
+        sh 'trivy image --scanners vuln --exit-code 1 --severity HIGH,CRITICAL "$IMAGE_NAME:$IMAGE_TAG"'
     }
 }
 
@@ -65,7 +65,7 @@ pipeline {
          stage('Tag Docker Image') {
     steps {
         sh '''
-            docker tag class28-app:latest vanessadevopslady/class_28_repo:latest
+           docker tag "$IMAGE_NAME:$IMAGE_TAG" "vanessadevopslady/class_28_repo:$IMAGE_TAG"
             docker images vanessadevopslady/class_28_repo
         '''
     }
@@ -89,7 +89,7 @@ pipeline {
                         printf '%s' "$DOCKER_HUB_TOKEN" |
                           docker login -u "$DOCKER_HUB_USER" --password-stdin
 
-                        docker push vanessadevopslady/class_28_repo:latest
+                        docker push "vanessadevopslady/class_28_repo:$IMAGE_TAG"
                     '''
                 }
             }
