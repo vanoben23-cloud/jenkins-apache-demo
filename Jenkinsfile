@@ -43,16 +43,12 @@ pipeline {
                 '''
             }
         }
-    
+    stage('Scan Docker Image') {
+    steps {
+        sh 'trivy image --scanners vuln --exit-code 1 --severity HIGH,CRITICAL class28-app:latest'
+    }
+}
 
-    
-        stage('Scan Docker Image') {
-            steps {
-                sh '''
-                trivy --config="" image --scanners vuln --exit-code 1 --severity HIGH,CRITICAL class28-app:latest
-                '''
-            }
-        }
 
          stage('Tag Docker Image') {
     steps {
