@@ -5,7 +5,19 @@ pipeline {
     options {
         skipDefaultCheckout(true)
     }
+ parameters {
+        string(
+            name: 'IMAGE_TAG',
+            defaultValue: 'latest',
+            description: 'Enter Docker image version'
+        )
 
+        string(
+            name: 'IMAGE_NAME',
+            defaultValue: 'class28-app',
+            description: 'Enter Docker image name'
+        )
+    }
     stages {
         stage('Checkout Git Repository') {
             steps {
